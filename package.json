@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/cynwong/profile_generator#readme",
   "dependencies": {
+    "html-pdf": "^2.2.0",
     "inquirer": "^7.0.0"
   }
 }
