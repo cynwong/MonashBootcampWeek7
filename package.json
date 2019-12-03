@@ -1,0 +1,27 @@
+{
+  "name": "profile_generator",
+  "version": "1.0.0",
+  "description": "\"A command-line appliction where user can dyanmically generate a PDF profile from a GitHub username\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cynwong/profile_generator.git"
+  },
+  "keywords": [
+    "node.js",
+    "profile_generator",
+    "javascript"
+  ],
+  "author": "Cynthia Wong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cynwong/profile_generator/issues"
+  },
+  "homepage": "https://github.com/cynwong/profile_generator#readme",
+  "dependencies": {
+    "inquirer": "^7.0.0"
+  }
+}
