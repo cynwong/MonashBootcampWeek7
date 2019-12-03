@@ -188,7 +188,7 @@
     <div class="wrapper">
         <header class="photo-header">
             <% if(avatarUrl) { %>
-            <img src="<%= avatarUrl => alt="Profile Picture">
+            <img src="<%= avatarUrl %>" alt="Profile Picture">
             <% } %>
             <h1>Hi!</h1>
             <h1>My name is <%= name %>!</h1>
@@ -197,17 +197,17 @@
             <% } %>
             <nav class="links-nav">
                 <% if(locationUrl)  { %>
-                <a href="<%= locationUrl %>" class="nav-link">
+                <a href="<%= locationUrl %>" class="nav-link" target="_blank">
                     <i class="fa fa-map-marker-alt"></i>
                     Location
                 </a>
                 <% } %>
-                <a href="<%= url %>" class="nav-link">
+                <a href="<%= githubUrl %>" class="nav-link" target="_blank">
                     <i class="fa fa-github-alt"></i>
                     GitHub
                 </a>
-                <% if(blog) { %>
-                <a href="<%= blog %>" class="nav-link">
+                <% if(blogUrl) { %>
+                <a href="<%= blogUrl %>" class="nav-link" target="_blank">
                     <i class="fa fa-rss"></i>
                     Blog
                 </a>
@@ -223,13 +223,13 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1>Public Repositories</h1>
+                        <h3>Public Repositories</h3>
                         <h2><%= repos %></h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <h1>Followers</h1>
+                        <h3>Followers</h3>
                         <h2><%= followers %></h2>
                     </div>
                 </div>
@@ -237,13 +237,13 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1>GitHub Stars</h1>
+                        <h3>GitHub Stars</h3>
                         <h2><%= stars %></h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <h1>Followings</h1>
+                        <h3>Followings</h3>
                         <h2><%= following %></h2>
                     </div>
                 </div>
