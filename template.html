@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <link href="https://fonts.googleapis.com/css?family=BioRhyme|Cabin&display=swap" rel="stylesheet">
-    <title>$[name]</title>
+    <title><%= name %></title>
     <style>
         @page {
             margin: 0;
@@ -32,7 +32,7 @@
         }
 
         .wrapper {
-            background-color: $[wrapperBackgroundColor];
+            background-color: <%= wrapperBackground %>;
             /* background-color: ${colors[data.color].wrapperBackground}; */
             padding-top: 100px;
         }
@@ -90,10 +90,10 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            background-color: $[headerBackgroundColor];
+            background-color: <%= headerBackground %>;
             /* background-color: ${colors[data.color].headerBackground}; */
 
-            color: $[headerColor];
+            color: <%= headerColor %>;
             /* color: ${colors[data.color].headerColor}; */
             padding: 10px;
             width: 95%;
@@ -107,7 +107,7 @@
             object-fit: cover;
             margin-top: -75px;
 
-            border: 6px solid $[photoBorderColor];
+            border: 6px solid <%= photoBorderColor %>;
             /* border: 6px solid ${colors[data.color].photoBorderColor}; */
             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
         }
@@ -158,9 +158,9 @@
         .card {
             padding: 20px;
             border-radius: 6px;
-            background-color: $[headerBackgroundColor];
+            background-color: <%= headerBackground %>;
             /* background-color: ${colors[data.color].headerBackground}; */
-            color:$[headerColor];
+            color: <%= headerColor %>;
             /* color: ${colors[data.color].headerColor}; */
             margin: 20px;
         }
@@ -187,40 +187,50 @@
 <body>
     <div class="wrapper">
         <header class="photo-header">
-            <img src=$[avatarUrl] alt="Profile Picture">
+            <% if(avatarUrl) { %>
+            <img src="<%= avatarUrl => alt="Profile Picture">
+            <% } %>
             <h1>Hi!</h1>
-            <h1>My name is $[name]!</h1>
-            <h2>$[company]</h2>
+            <h1>My name is <%= name %>!</h1>
+            <% if(company) { %>
+            <h2>Currently @ <%= company %></h2>
+            <% } %>
             <nav class="links-nav">
-                <a href="$[locationUrl]" class="nav-link">
+                <% if(locationUrl)  { %>
+                <a href="<%= locationUrl %>" class="nav-link">
                     <i class="fa fa-map-marker-alt"></i>
                     Location
                 </a>
-                <a href="$[githubUrl]" class="nav-link">
+                <% } %>
+                <a href="<%= url %>" class="nav-link">
                     <i class="fa fa-github-alt"></i>
                     GitHub
                 </a>
-                <a href="$[blogUrl]" class="nav-link">
+                <% if(blog) { %>
+                <a href="<%= blog %>" class="nav-link">
                     <i class="fa fa-rss"></i>
                     Blog
                 </a>
+                <% } %>
             </nav>
         </header>
         <main class="container">
             <div class="row">
-                <div class="col">$[bio]</div>
+                <% if(bio) { %>
+                <div class="col"><%= bio %></div>
+                <% } %>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <h1>Public Repositories</h1>
-                        <h2>$[nRepos]</h2>
+                        <h2><%= repos %></h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
                         <h1>Followers</h1>
-                        <h2>$[nfollowers]</h2>
+                        <h2><%= followers %></h2>
                     </div>
                 </div>
             </div>
@@ -228,13 +238,13 @@
                 <div class="col">
                     <div class="card">
                         <h1>GitHub Stars</h1>
-                        <h2>$[nStars]</h2>
+                        <h2><%= stars %></h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
                         <h1>Followings</h1>
-                        <h2>$[nFollowings]</h2>
+                        <h2><%= following %></h2>
                     </div>
                 </div>
             </div>
