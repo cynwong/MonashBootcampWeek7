@@ -1,66 +1,25 @@
-const questions = [
-    {
-        name: "backgroundColor",
-        type: "list",
-        choices: ["green", "blue", "pink", "red"],
-        message: "What is your favourite color?"
-    },
-    {
-        name: "githubUsername",
-        type: "input",
-        message: "GitHub username"
-    }
-];
 
-const colors = {
-    green: {
-        wrapperBackground: "#E6E1C3",
-        headerBackground: "#C1C72C",
-        headerColor: "black",
-        photoBorderColor: "black"
-    },
-    blue: {
-        wrapperBackground: "#5F64D3",
-        headerBackground: "#26175A",
-        headerColor: "white",
-        photoBorderColor: "#73448C"
-    },
-    pink: {
-        wrapperBackground: "#879CDF",
-        headerBackground: "#FF8374",
-        headerColor: "white",
-        photoBorderColor: "#FEE24C"
-    },
-    red: {
-        wrapperBackground: "#DE9967",
-        headerBackground: "#870603",
-        headerColor: "white",
-        photoBorderColor: "white"
-    }
-};
-
-const GITHUB_URL = "https://api.github.com/users/";
-
-//https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
-const GOOGLE_URL = "https://www.google.com/maps/search/?api=1&query=";
-
-const INQUIRER = require("inquirer");
-const AXIOS = require("axios");
-const FS = require("fs");
-const UTILS = require("util");
-const EJS = require("ejs");
-
-const PUPPETEER = require("puppeteer");
-const readFile = UTILS.promisify(FS.readFile);
-
+const {
+    questions,
+    colors,
+    GITHUB_URL,
+    GOOGLE_URL,
+    INQUIRER,
+    AXIOS,
+    FS,
+    EJS,
+    PUPPETEER,
+    DEFAULT_FILE_PATH
+} = require( './config.js');
 
 async function writeToFile(filepath, data) {
     try{
         const browser = await PUPPETEER.launch();
         const page = await browser.newPage();
-
+        
         await page.setContent(data);
         await page.emulateMediaType("print");
+        console.log(`Saving to ${filepath}.....`);
         await page.pdf({
             path: filepath,
             format:"A4",
@@ -70,32 +29,29 @@ async function writeToFile(filepath, data) {
         await browser.close();
         process.exit();
     }catch(err){
-        console.log(err);
+        //console.log("Error in writing pdf", err.message);
+        if(filepath.search(/^\.\//g)=== -1){
+            //if not default path.
+            //try again with new 
+            // await browser.close();
+            console.log(err.message);
+            console.log("Trying to write file in current path.")
+            const newFilePath = DEFAULT_FILE_PATH + filepath.split("/").slice(-1).pop();
+            console.log(newFilePath);
+            writeToFile(newFilePath,data);
+
+        }
+        process.exit();
     }
 }
 
 async function init() {
     try {
-        const { backgroundColor: favColor, githubUsername } = await INQUIRER.prompt(questions);
+        const { backgroundColor: favColor, githubUsername, filePath } = await INQUIRER.prompt(questions);
         const userGithubUrl = GITHUB_URL + githubUsername;
         const getGithubData = AXIOS.get(userGithubUrl);
         const getGitHubStars = AXIOS.get(`${userGithubUrl}/starred`);
-        const getTemplate = readFile("./template.html", "utf-8");
-        
-        // //Temporary data
-        // const template = await readFile("./template.html", "utf-8");
-        // const avatarUrl = "https://avatars3.githubusercontent.com/u/43305867?v=4";
-        // const githubUrl = "https://github.com/cynwong";
-        // const name="Cyn";
-        // const company = "Self-employed";
-        // const blogUrl = "http://cyn.blog.com";
-        // const location= "Melbourne, Australia";
-        // const bio = "I build things and teach people to code";
-        // const repos = 12;
-        // const followers = 0;
-        // const following = 0;
-        // const starredRepos = [1,2];
-
+        const getTemplate = FS.readFile("./template.html", "utf-8");
         const [
             {
                 data: {
@@ -117,16 +73,24 @@ async function init() {
             template
         ] = await Promise.all([getGithubData, getGitHubStars, getTemplate]);
         let locationUrl = "";
-        if (location) { locationUrl = GOOGLE_URL + location.replace(/ /g,""); }
+        if (location) { 
+            locationUrl = GOOGLE_URL + location.replace(/ /g,""); 
+        }
         const {
             wrapperBackground,
             headerBackground,
             headerColor,
             photoBorderColor
         } = colors[favColor];
-        const fileName = `./${name.toLowerCase().replace(" ", "_")}_profile.pdf`;
+        let fileName = "";
+        if(filePath){
+            fileName = `${filePath.replace(/\/$/g,"")}/`;
+        }else{
+            fileName = DEFAULT_FILE_PATH;
+        }
+        fileName += `${name.toLowerCase().replace(" ", "_")}_profile.pdf`;
 
-        const result = await EJS.render(
+        const html = await EJS.render(
             template,
             {
                 name,
@@ -149,9 +113,10 @@ async function init() {
                 async: true
             }
         );
-        writeToFile(fileName, result);
+        writeToFile(fileName, html);
     } catch (err) {
-        console.log(err);
+        console.log("Error in conversion", err.message);
+        process.exit();
     }
 }
 init();
