@@ -57,6 +57,7 @@
         h6 {
             font-family: 'BioRhyme', serif;
             margin: 0;
+            margin-top:8px;
         }
 
         h1 {
@@ -109,17 +110,21 @@
 
             border: 6px solid <%= photoBorderColor %>;
             /* border: 6px solid ${colors[data.color].photoBorderColor}; */
-            box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
+            /* box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px; */
         }
 
         .photo-header h1,
-        .photo-header h2 {
+        .photo-header h4 {
             width: 100%;
             text-align: center;
         }
 
         .photo-header h1 {
             margin-top: 10px;
+        }
+
+        .photo-header h4 {
+            margin-top: 8px;
         }
 
         .links-nav {
@@ -163,6 +168,7 @@
             color: <%= headerColor %>;
             /* color: ${colors[data.color].headerColor}; */
             margin: 20px;
+            min-height: 150px;
         }
 
         .col {
@@ -193,22 +199,22 @@
             <h1>Hi!</h1>
             <h1>My name is <%= name %>!</h1>
             <% if(company) { %>
-            <h2>Currently @ <%= company %></h2>
+            <h4>Currently @ <%= company %>!</h4>
             <% } %>
             <nav class="links-nav">
                 <% if(locationUrl)  { %>
                 <a href="<%= locationUrl %>" class="nav-link" target="_blank">
-                    <i class="fa fa-map-marker-alt"></i>
+                    <i class="fas fa-map-marker-alt"></i>
                     Location
                 </a>
                 <% } %>
                 <a href="<%= githubUrl %>" class="nav-link" target="_blank">
-                    <i class="fa fa-github-alt"></i>
+                    <i class="fab fa-github-alt"></i>
                     GitHub
                 </a>
                 <% if(blogUrl) { %>
                 <a href="<%= blogUrl %>" class="nav-link" target="_blank">
-                    <i class="fa fa-rss"></i>
+                    <i class="fas fa-rss"></i>
                     Blog
                 </a>
                 <% } %>
@@ -217,7 +223,7 @@
         <main class="container">
             <div class="row">
                 <% if(bio) { %>
-                <div class="col"><%= bio %></div>
+                <div class="col"><h3><%= bio %></h3></div>
                 <% } %>
             </div>
             <div class="row">
