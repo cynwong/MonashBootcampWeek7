@@ -10,24 +10,34 @@ const {
     writeToFile
 } = require("./process.js");
 
+const {
+    alerts: {
+        usernameRequired: msgUsernameRequired,
+        mustBePdf: msgMustBePdf
+    },
+    errorPrefixs:{
+        init: errInit
+    }
+}= require("./languages/en_au");
+
 /**
  * Init function where the program will ask user for the information and get 
  */
 async function init() {
     try {
         const answers = await INQUIRER.prompt(questions);
-        const favColor = answers.backgroundColor;
+        const theme = answers.theme;
         const githubUsername = answers.githubUsername.trim();
         const customFilePath = answers.customFilePath.trim();
 
         if(!githubUsername){
-            return console.log("\nAlert: Github username is required.");
+            return console.log(msgUsernameRequired);
         }
         if(customFilePath && customFilePath.search(/\.[a-z]{2,5}$/g) !== -1 && !customFilePath.endsWith(".pdf")){
-            return console.log("\nAlert: Destination file must be a pdf file.")
+            return console.log(msgMustBePdf);
         }
 
-        const [template,data] = await retrieveData(favColor,githubUsername);
+        const [template,data] = await retrieveData(theme,githubUsername);
         if(!template || (data.constructor === Object && Object.entries(data).length === 0)){
             //if no data, exit the process
             return;
@@ -41,7 +51,7 @@ async function init() {
 
 
     }catch(err){
-        console.log("Error: ", err.message);
+        console.log(errInit, err.message);
     }
 }
 init();

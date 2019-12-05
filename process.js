@@ -8,10 +8,28 @@ const {
     PATH_SEPARATOR,
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
+    DEFAULT_FILE_SUFFIX,
     getGoogleUrl,
     getGitHubURL,
     getGitHubStarsURL,
 } = require( './config.js');
+
+const {
+    alerts:{
+        noGithubData: alertNoGithubData
+    },
+    errorPrefixs: {
+        savePdf: prefixSavePDF,
+        retrieval: prefixRetrival,
+        conversion: prefixConversion
+    },
+    info: {
+        saving: infoSaving,
+        fileCreated: infoFileCreated,
+        usingDefault: infoUsingDefault
+        
+    }
+}= require("./languages/en_au");
 
 /**
  * Save data in given file location.
@@ -28,19 +46,19 @@ const writeToFile = async function (customFilePath,name, data) {
         
         await page.setContent(data);
         await page.emulateMediaType("print");
-        console.log(`Saving to ${filePath}.....`);
+        console.log(`${infoSaving} ${filePath}.....`);
         await page.pdf({
             path: filePath,
             format:"A4",
             printBackground: true,
         });
-        console.log("PDF created.");
+        console.log(infoFileCreated);
         EXEC(`${OPEN_FILE_COMMAND} ${filePath}`);
         await browser.close();
     }catch(err){
-        console.log("Error in saving pdf", err.message);
+        console.log(prefixSavePDF, err.message);
         if(!isUsingDefaultPath){
-            console.log("Trying to save file in default folder.")
+            console.log(infoUsingDefault);
             const newFilePath = DEFAULT_FILE_PATH + filePath.split(PATH_SEPARATOR).slice(-1).pop();
             await writeToFile(newFilePath,name, data);
         }
@@ -50,11 +68,11 @@ const writeToFile = async function (customFilePath,name, data) {
 
 /**
  * Retrieve user data and template 
- * @param {string} favColor 
+ * @param {string} theme 
  * @param {string} githubUsername 
  * @param {string} customFilePath 
  */
-const retrieveData = async function(favColor,githubUsername){
+const retrieveData = async function(theme,githubUsername){
     try{
         const getGithubData = AXIOS.get(getGitHubURL(githubUsername));
         const getGitHubStars = AXIOS.get(getGitHubStarsURL(githubUsername));
@@ -80,7 +98,7 @@ const retrieveData = async function(favColor,githubUsername){
             template
         ] = await Promise.all([getGithubData, getGitHubStars, getTemplate]);
         if(!name){
-            console.log("\nAlert: Something went wrong with retrieving profile from GitHub. Check github username and try again later.");
+            console.log(alertNoGithubData);
             return [];
         }
         let locationUrl = "";
@@ -92,7 +110,7 @@ const retrieveData = async function(favColor,githubUsername){
             headerBackground,
             headerColor,
             photoBorderColor
-        } = colors[favColor];
+        } = colors[theme];
         
         return  [
                 template, 
@@ -115,7 +133,7 @@ const retrieveData = async function(favColor,githubUsername){
                 }
             ];
     } catch (err) {
-        console.log("Error in data retrieval: ", err.message);
+        console.log(prefixRetrival, err.message);
         return [];
     }
 };
@@ -138,7 +156,7 @@ const _getFilePath = function (customFilePath,name){
             isUsingDefaultPath = true;
         }
         //add file default file name
-        filePath += `${name.toLowerCase().replace(" ", "_")}_profile.pdf`;
+        filePath += `${name.toLowerCase().replace(" ", "_")}_${DEFAULT_FILE_SUFFIX}`;
     }
     return [filePath, isUsingDefaultPath];
 }
@@ -153,7 +171,7 @@ const renderData = async function (template, data){
             }
         );
     } catch (err) {
-        console.log("Error in conversion", err.message);
+        console.log(prefixConversion, err.message);
     }
     return null;
 };

@@ -1,19 +1,33 @@
+const {
+        theme,
+        username,
+        customFilePath
+} = require("./languages/en_au").questions;
+
+const INQUIRER = require("inquirer");
+const AXIOS = require("axios");
+const FS = require("fs-extra");
+const EJS = require("ejs");
+const PUPPETEER = require("puppeteer");
+const os = require("os");
+const EXEC = require("child_process").exec;
+
 const questions = [
     {
-        name: "backgroundColor",
+        name: "theme",
         type: "list",
         choices: ["green", "blue", "pink", "red"],
-        message: "What is your favourite color?"
+        message: theme
     },
     {
         name: "githubUsername",
         type: "input",
-        message: "GitHub username"
+        message: username
     },
     {
         name: "customFilePath",
         type: "input",
-        message: "Where do you want to save your file?(Press Enter to use current location):"
+        message: customFilePath
     }
 ];
 
@@ -47,13 +61,6 @@ const colors = {
 
 const _githubUrl = "https://api.github.com/users/";
 
-
-const INQUIRER = require("inquirer");
-const AXIOS = require("axios");
-const FS = require("fs-extra");
-const EJS = require("ejs");
-const PUPPETEER = require("puppeteer");
-const os = require("os");
 let PATH_SEPARATOR = "/";
 let OPEN_FILE_COMMAND = "open";
 if(os.platform().localeCompare("win32") === 0){
@@ -61,19 +68,19 @@ if(os.platform().localeCompare("win32") === 0){
     PATH_SEPARATOR = "\\";
     OPEN_FILE_COMMAND = 'start ""'
 }
-const EXEC = require("child_process").exec;
 
 const DEFAULT_FILE_PATH = `.${PATH_SEPARATOR}`;
+const DEFAULT_FILE_SUFFIX = "profile.pdf";
 
 /**
  * Return google url with the location
  * @param {string} location 
  * @return string URI
+ * e.g. https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
  */
 const getGoogleUrl = function(location){
-    // e.g. https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
     return encodeURI(`https://www.google.com/maps/search/?api=1&query=${location}`);
-}
+};
 
 /**
  * return user's github api url
@@ -82,7 +89,7 @@ const getGoogleUrl = function(location){
  */
 const getGitHubURL = function(user){
     return encodeURI(`${_githubUrl}${user}`);
-}
+};
 
 /**
  * return user's github api url
@@ -91,7 +98,7 @@ const getGitHubURL = function(user){
  */
 const getGitHubStarsURL = function(user){
     return encodeURI(`${getGitHubURL(user)}/starred`);
-}
+};
 
 module.exports = {
     questions,
@@ -105,6 +112,7 @@ module.exports = {
     PATH_SEPARATOR,
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
+    DEFAULT_FILE_SUFFIX,
     getGoogleUrl,
     getGitHubURL,
     getGitHubStarsURL
