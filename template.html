@@ -13,6 +13,23 @@
             margin: 0;
         }
 
+        @font-face {
+            font-family: 'Font Awesome\ 5 Brands';
+            font-style: normal;
+            font-weight: 400;
+            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot");
+            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.svg#fontawesome") format("svg");
+        }
+
+        @font-face {
+            font-family: 'Font Awesome\ 5 Free';
+            font-style: normal;
+            font-weight: 900;
+            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot");
+            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.svg#fontawesome") format("svg");
+        }
+        
+
         *,
         *::after,
         *::before {
@@ -32,7 +49,7 @@
         }
 
         .wrapper {
-            background-color: <%= wrapperBackground %>;
+            background-color: <%=wrapperBackground %>;
             /* background-color: ${colors[data.color].wrapperBackground}; */
             padding-top: 100px;
         }
@@ -57,7 +74,7 @@
         h6 {
             font-family: 'BioRhyme', serif;
             margin: 0;
-            margin-top:8px;
+            margin-top: 8px;
         }
 
         h1 {
@@ -91,10 +108,10 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            background-color: <%= headerBackground %>;
+            background-color: <%=headerBackground %>;
             /* background-color: ${colors[data.color].headerBackground}; */
 
-            color: <%= headerColor %>;
+            color: <%=headerColor %>;
             /* color: ${colors[data.color].headerColor}; */
             padding: 10px;
             width: 95%;
@@ -108,7 +125,7 @@
             object-fit: cover;
             margin-top: -75px;
 
-            border: 6px solid <%= photoBorderColor %>;
+            border: 6px solid <%=photoBorderColor %>;
             /* border: 6px solid ${colors[data.color].photoBorderColor}; */
             /* box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px; */
         }
@@ -132,6 +149,32 @@
             text-align: center;
             padding: 20px 0;
             font-size: 1.1em;
+        }
+
+        .icon::before {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .location::before {
+            font-family: "Font Awesome\ 5 Free";
+            font-weight: 900;
+            content: "\f3c5";
+        }
+
+        .github::before {
+            font-family: "Font Awesome\ 5 Brands";
+            font-weight: 400;
+            content: "\f113";
+        }
+
+        .blog::before {
+            font-family: "Font Awesome\ 5 Free";
+            font-weight: 900;
+            content: "\f09e";
         }
 
         .nav-link {
@@ -163,9 +206,9 @@
         .card {
             padding: 20px;
             border-radius: 6px;
-            background-color: <%= headerBackground %>;
+            background-color: <%=headerBackground %>;
             /* background-color: ${colors[data.color].headerBackground}; */
-            color: <%= headerColor %>;
+            color: <%=headerColor %>;
             /* color: ${colors[data.color].headerColor}; */
             margin: 20px;
             min-height: 150px;
@@ -190,6 +233,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <header class="photo-header">
@@ -203,18 +247,15 @@
             <% } %>
             <nav class="links-nav">
                 <% if(locationUrl)  { %>
-                <a href="<%= locationUrl %>" class="nav-link" target="_blank">
-                    <i class="fas fa-map-marker-alt"></i>
+                <a href="<%= locationUrl %>" class="nav-link icon location" target="_blank">
                     Location
                 </a>
                 <% } %>
-                <a href="<%= githubUrl %>" class="nav-link" target="_blank">
-                    <i class="fab fa-github-alt"></i>
+                <a href="<%= githubUrl %>" class="nav-link icon github" target="_blank">
                     GitHub
                 </a>
                 <% if(blogUrl) { %>
-                <a href="<%= blogUrl %>" class="nav-link" target="_blank">
-                    <i class="fas fa-rss"></i>
+                <a href="<%= blogUrl %>" class="nav-link icon blog" target="_blank">
                     Blog
                 </a>
                 <% } %>
@@ -223,7 +264,9 @@
         <main class="container">
             <div class="row">
                 <% if(bio) { %>
-                <div class="col"><h3><%= bio %></h3></div>
+                <div class="col">
+                    <h3><%= bio %></h3>
+                </div>
                 <% } %>
             </div>
             <div class="row">
@@ -257,4 +300,5 @@
         </main>
     </div>
 </body>
+
 </html>
