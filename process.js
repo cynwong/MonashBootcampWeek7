@@ -9,6 +9,7 @@ const {
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
     DEFAULT_FILE_SUFFIX,
+    TEMPLATE_FILE,
     getGoogleUrl,
     getGitHubURL,
     getGitHubStarsURL,
@@ -80,7 +81,7 @@ const retrieveData = async function(theme,githubUsername){
         console.log(infoDataRetrieving);
         const getGithubData = AXIOS.get(getGitHubURL(githubUsername));
         const getGitHubStars = AXIOS.get(getGitHubStarsURL(githubUsername));
-        const getTemplate = FS.readFile("./template.html", "utf-8");
+        const getTemplate = FS.readFile(TEMPLATE_FILE, "utf-8");
         const [
             {
                 data: {

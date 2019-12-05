@@ -72,6 +72,8 @@ if(os.platform().localeCompare("win32") === 0){
 const DEFAULT_FILE_PATH = `.${PATH_SEPARATOR}`;
 const DEFAULT_FILE_SUFFIX = "profile.pdf";
 
+const TEMPLATE_FILE = "./template.html";
+
 /**
  * Return google url with the location
  * @param {string} location 
@@ -113,6 +115,7 @@ module.exports = {
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
     DEFAULT_FILE_SUFFIX,
+    TEMPLATE_FILE,
     getGoogleUrl,
     getGitHubURL,
     getGitHubStarsURL
