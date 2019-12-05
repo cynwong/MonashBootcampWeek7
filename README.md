@@ -12,7 +12,7 @@ Profile generator is a command line application so terminal or command prompt pr
 2. In the terminal window, type the following command
 
     ```sh
-    node index.js
+        node index.js
     ```
 
 3. Follow the prompts.
@@ -20,13 +20,9 @@ Profile generator is a command line application so terminal or command prompt pr
 
 ## User Stories
 
-```
-    AS A product manager
-
-    I WANT a developer profile generator
-
-    SO THAT I can easily prepare reports for stakeholders
-```
+> AS A product manager
+> I WANT a developer profile generator
+> SO THAT I can easily prepare reports for stakeholders
 
 ## Business Context
 
