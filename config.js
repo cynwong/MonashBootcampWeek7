@@ -11,7 +11,7 @@ const questions = [
         message: "GitHub username"
     },
     {
-        name: "filePath",
+        name: "customFilePath",
         type: "input",
         message: "Where do you want to save your file?(Press Enter to use current location):"
     }
@@ -45,28 +45,67 @@ const colors = {
 };
 
 
-const GITHUB_URL = "https://api.github.com/users/";
+const _githubUrl = "https://api.github.com/users/";
 
-//https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
-const GOOGLE_URL = "https://www.google.com/maps/search/?api=1&query=";
 
 const INQUIRER = require("inquirer");
 const AXIOS = require("axios");
 const FS = require("fs-extra");
 const EJS = require("ejs");
 const PUPPETEER = require("puppeteer");
+const os = require("os");
+let PATH_SEPARATOR = "/";
+let OPEN_FILE_COMMAND = "open";
+if(os.platform().localeCompare("win32") === 0){
+    //window file path user "\"
+    PATH_SEPARATOR = "\\";
+    OPEN_FILE_COMMAND = 'start ""'
+}
+const EXEC = require("child_process").exec;
 
-const DEFAULT_FILE_PATH = "./";
+const DEFAULT_FILE_PATH = `.${PATH_SEPARATOR}`;
+
+/**
+ * Return google url with the location
+ * @param {string} location 
+ * @return string URI
+ */
+const getGoogleUrl = function(location){
+    // e.g. https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
+    return encodeURI(`https://www.google.com/maps/search/?api=1&query=${location}`);
+}
+
+/**
+ * return user's github api url
+ * @param {string} location 
+ * @return string URI
+ */
+const getGitHubURL = function(user){
+    return encodeURI(`${_githubUrl}${user}`);
+}
+
+/**
+ * return user's github api url
+ * @param {string} location 
+ * @return string URI
+ */
+const getGitHubStarsURL = function(user){
+    return encodeURI(`${getGitHubURL(user)}/starred`);
+}
 
 module.exports = {
     questions,
     colors,
-    GITHUB_URL,
-    GOOGLE_URL,
     INQUIRER,
     AXIOS,
     FS,
     EJS,
+    EXEC,
     PUPPETEER,
-    DEFAULT_FILE_PATH
+    PATH_SEPARATOR,
+    OPEN_FILE_COMMAND,
+    DEFAULT_FILE_PATH, 
+    getGoogleUrl,
+    getGitHubURL,
+    getGitHubStarsURL
 };
