@@ -17,8 +17,10 @@ const MESSAGES = {
         username: "What is your GitHub username?"
     },
     info: {
+        dataRetrieving:"Retrieving data from the server...",
         fileCreated: "PDF created.",
-        saving:`Saving to`,
+        parsingData: "Parsing data from the server...",
+        saving:`Saving data in`,
         usingDefault: "Trying to save file in default folder."
     },
 };

@@ -27,7 +27,9 @@ const {
     info: {
         saving: infoSaving,
         fileCreated: infoFileCreated,
-        usingDefault: infoUsingDefault
+        usingDefault: infoUsingDefault,
+        dataRetrieving: infoDataRetrieving,
+        parsingData: infoParsingData
         
     }
 }= require("./languages/en_au");
@@ -75,6 +77,7 @@ const writeToFile = async function (customFilePath,name, data) {
  */
 const retrieveData = async function(theme,githubUsername){
     try{
+        console.log(infoDataRetrieving);
         const getGithubData = AXIOS.get(getGitHubURL(githubUsername));
         const getGitHubStars = AXIOS.get(getGitHubStarsURL(githubUsername));
         const getTemplate = FS.readFile("./template.html", "utf-8");
@@ -169,6 +172,7 @@ const _getFilePath = function (customFilePath,name){
 
 const renderData = async function (template, data){
     try{
+        console.log(infoParsingData);
         return await EJS.render(
             template,
             data,
