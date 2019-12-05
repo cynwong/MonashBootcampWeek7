@@ -2,55 +2,65 @@
 const {
     questions,
     colors,
-    GITHUB_URL,
-    GOOGLE_URL,
     INQUIRER,
     AXIOS,
     FS,
     EJS,
+    EXEC,
     PUPPETEER,
-    DEFAULT_FILE_PATH
+    PATH_SEPARATOR,
+    OPEN_FILE_COMMAND,
+    DEFAULT_FILE_PATH, 
+    getGoogleUrl,
+    getGitHubURL,
+    getGitHubStarsURL,
 } = require( './config.js');
 
-async function writeToFile(filepath, data) {
+/**
+ * Save data in given file location.
+ * @param {string} filepath destination file path
+ * @param {object} data html data to be written to the file
+ * @param {boolean} isUsingDefaultPath True if program is using default path, False if using user's defined path
+ */
+const writeToFile = async function (customFilePath,name, data) {
+    const [filePath,isUsingDefaultPath] = await getFilePath(customFilePath,name);
     try{
+        
         const browser = await PUPPETEER.launch();
         const page = await browser.newPage();
         
         await page.setContent(data);
         await page.emulateMediaType("print");
-        console.log(`Saving to ${filepath}.....`);
+        console.log(`Saving to ${filePath}.....`);
         await page.pdf({
-            path: filepath,
+            path: filePath,
             format:"A4",
             printBackground: true,
         });
         console.log("PDF created.");
+        EXEC(`${OPEN_FILE_COMMAND} ${filePath}`);
         await browser.close();
-        process.exit();
     }catch(err){
-        //console.log("Error in writing pdf", err.message);
-        if(filepath.search(/^\.\//g)=== -1){
-            //if not default path.
-            //try again with new 
-            // await browser.close();
-            console.log(err.message);
-            console.log("Trying to write file in current path.")
-            const newFilePath = DEFAULT_FILE_PATH + filepath.split("/").slice(-1).pop();
-            console.log(newFilePath);
-            writeToFile(newFilePath,data);
-
+        console.log("Error in saving pdf", err.message);
+        if(!isUsingDefaultPath){
+            console.log("Trying to save file in default folder.")
+            const newFilePath = DEFAULT_FILE_PATH + filePath.split(PATH_SEPARATOR).slice(-1).pop();
+            // await writeToFile(newFilePath,data);
         }
-        process.exit();
     }
+    process.exit();
 }
 
-async function init() {
-    try {
-        const { backgroundColor: favColor, githubUsername, filePath } = await INQUIRER.prompt(questions);
-        const userGithubUrl = GITHUB_URL + githubUsername;
-        const getGithubData = AXIOS.get(userGithubUrl);
-        const getGitHubStars = AXIOS.get(`${userGithubUrl}/starred`);
+/**
+ * Retrieve user data and template 
+ * @param {string} favColor 
+ * @param {string} githubUsername 
+ * @param {string} customFilePath 
+ */
+async function retrieveData(favColor,githubUsername){
+    try{
+        const getGithubData = AXIOS.get(getGitHubURL(githubUsername));
+        const getGitHubStars = AXIOS.get(getGitHubStarsURL(githubUsername));
         const getTemplate = FS.readFile("./template.html", "utf-8");
         const [
             {
@@ -72,9 +82,13 @@ async function init() {
             },
             template
         ] = await Promise.all([getGithubData, getGitHubStars, getTemplate]);
+        if(!name){
+            console.log("\nAlert: Something went wrong with retrieving profile from GitHub. Check github username and try again later.");
+            return [];
+        }
         let locationUrl = "";
         if (location) { 
-            locationUrl = GOOGLE_URL + location.replace(/ /g,""); 
+            locationUrl = getGoogleUrl(location);
         }
         const {
             wrapperBackground,
@@ -82,42 +96,106 @@ async function init() {
             headerColor,
             photoBorderColor
         } = colors[favColor];
-        let fileName = "";
-        if(filePath){
-            fileName = `${filePath.replace(/\/$/g,"")}/`;
-        }else{
-            fileName = DEFAULT_FILE_PATH;
-        }
-        fileName += `${name.toLowerCase().replace(" ", "_")}_profile.pdf`;
+        
+        return  [
+                template, 
+                {
+                    name,
+                    wrapperBackground,
+                    headerBackground,
+                    headerColor,
+                    photoBorderColor,
+                    avatarUrl,
+                    company,
+                    locationUrl,
+                    githubUrl,
+                    blogUrl,
+                    bio,
+                    repos,
+                    followers,
+                    stars: starredRepos.length,
+                    following
+                }
+            ];
+    } catch (err) {
+        console.log("Error in data retrieval: ", err.message);
+        return [];
+    }
+}
 
-        const html = await EJS.render(
+function getFilePath(customFilePath,name){
+    let filePath = "";
+    let isUsingDefaultPath = false;
+    if(customFilePath && customFilePath.endsWith(".pdf")){
+        //this already have  file name and so no changes needed
+    
+        filePath = customFilePath;
+    }else{
+        if(customFilePath && !customFilePath.endsWith(PATH_SEPARATOR)){
+            //if filepath does not end with a separator, add one. 
+            filePath = customFilePath.concat(PATH_SEPARATOR);
+        }
+        if(!customFilePath){
+            //if no custom file path, use default
+            filePath = DEFAULT_FILE_PATH;
+            isUsingDefaultPath = true;
+        }
+        //add file default file name
+        filePath += `${name.toLowerCase().replace(" ", "_")}_profile.pdf`;
+    }
+    console.log([filePath, isUsingDefaultPath])
+    return [filePath, isUsingDefaultPath];
+}
+
+async function renderData(template, data){
+    try{
+        return await EJS.render(
             template,
-            {
-                name,
-                wrapperBackground,
-                headerBackground,
-                headerColor,
-                photoBorderColor,
-                avatarUrl,
-                company,
-                locationUrl,
-                githubUrl,
-                blogUrl,
-                bio,
-                repos,
-                followers,
-                stars: starredRepos.length,
-                following
-            },
+            data,
             {
                 async: true
             }
         );
-        writeToFile(fileName, html);
     } catch (err) {
         console.log("Error in conversion", err.message);
-        process.exit();
+    }
+    return null;
+}
+
+/**
+ * Init function where the program will ask user for the information and get 
+ */
+async function init() {
+    try {
+        const answers = await INQUIRER.prompt(questions);
+        const favColor = answers.backgroundColor;
+        const githubUsername = answers.githubUsername.trim();
+        const customFilePath = answers.customFilePath.trim();
+
+        if(!githubUsername){
+            return console.log("\nAlert: Github username is required.");
+        }
+        if(customFilePath && customFilePath.search(/\.[a-z]{2,5}$/g) !== -1 && !customFilePath.endsWith(".pdf")){
+            return console.log("\nAlert: Destination file must be a pdf file.")
+        }
+
+        const [template,data] = await retrieveData(favColor,githubUsername);
+        if(!template || (data.constructor === Object && Object.entries(data).length === 0)){
+            //if no data, exit the process
+            return;
+        }
+        const output = await renderData(template,data);
+        if(!output){
+            //if no data, exit the process
+            return;
+        }
+        writeToFile(customFilePath,data.name,output);
+
+
+    }catch(err){
+        console.log("Error: ", err.message);
     }
 }
 init();
+
 
