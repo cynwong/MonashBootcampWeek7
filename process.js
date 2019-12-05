@@ -16,7 +16,8 @@ const {
 
 const {
     alerts:{
-        noGithubData: alertNoGithubData
+        noGithubData: alertNoGithubData,
+        userNotFound: alertUserNotFound
     },
     errorPrefixs: {
         savePdf: prefixSavePDF,
@@ -111,7 +112,8 @@ const retrieveData = async function(theme,githubUsername){
             headerColor,
             photoBorderColor
         } = colors[theme];
-        
+        //calculate stargazers count for github stars
+        const stars = starredRepos.reduce((acc,{stargazers_count})=> acc+stargazers_count,0);
         return  [
                 template, 
                 {
@@ -128,12 +130,16 @@ const retrieveData = async function(theme,githubUsername){
                     bio,
                     repos,
                     followers,
-                    stars: starredRepos.length,
+                    stars,
                     following
                 }
             ];
     } catch (err) {
-        console.log(prefixRetrival, err.message);
+        if(err.response.status === 404){
+            console.log(prefixRetrival, alertUserNotFound)
+        }else{
+            console.log(prefixRetrival, err.message);
+        }
         return [];
     }
 };

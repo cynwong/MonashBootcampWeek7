@@ -2,7 +2,8 @@ const MESSAGES = {
     alerts: {
         mustBePdf:"\nAlert: Destination file must be a pdf file.",
         noGithubData :"\nAlert: Something went wrong with retrieving profile from GitHub. Check github username and try again later.",
-        usernameRequired: "\nAlert: Github username is required."
+        usernameRequired: "\nAlert: Github username is required.",
+        userNotFound: "Username is not found on GitHub."
     },
     errorPrefixs:{
         conversion: "\nError in conversion: ",
