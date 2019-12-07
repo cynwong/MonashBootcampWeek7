@@ -4,13 +4,7 @@ const {
         customFilePath
 } = require("./languages/en_au").questions;
 
-const INQUIRER = require("inquirer");
-const AXIOS = require("axios");
-const FS = require("fs-extra");
-const EJS = require("ejs");
-const PUPPETEER = require("puppeteer");
 const os = require("os");
-const EXEC = require("child_process").exec;
 
 const questions = [
     {
@@ -105,12 +99,6 @@ const getGitHubStarsURL = function(user){
 module.exports = {
     questions,
     colors,
-    INQUIRER,
-    AXIOS,
-    FS,
-    EJS,
-    EXEC,
-    PUPPETEER,
     PATH_SEPARATOR,
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
