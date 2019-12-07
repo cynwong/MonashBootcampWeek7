@@ -31,23 +31,28 @@ async function init() {
         const githubUsername = answers.githubUsername.trim();
         const customFilePath = answers.customFilePath.trim();
 
+        //check if github username is given 
         if(!githubUsername){
             return console.log(msgUsernameRequired);
         }
+        //check if file path is valid path and if it is a file, then check if it is pdf
         if(customFilePath && customFilePath.search(/\.[a-z]{2,5}$/g) !== -1 && !customFilePath.endsWith(".pdf")){
             return console.log(msgMustBePdf);
         }
 
+        // get data and template
         const [template,data] = await retrieveData(theme,githubUsername);
         if(!template || (data.constructor === Object && Object.entries(data).length === 0)){
             //if no data, exit the process
             return;
         }
+        //render output 
         const output = await renderData(template,data);
         if(!output && typeof output !== "undefined"){
             //if no data, exit the process
             return;
         }
+        //write output to the file.
         writeToFile(customFilePath,data.name,output);
 
 
