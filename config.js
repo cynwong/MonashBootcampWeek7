@@ -75,7 +75,7 @@ const TEMPLATE_FILE = "./template.html";
  * e.g. https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
  */
 const getGoogleUrl = function(location){
-    return encodeURI(`https://www.google.com/maps/search/?api=1&query=${location}`);
+    return encodeURI(`https://www.google.com/maps/search/?api=1&query=${location.replace(" ","")}`);
 };
 
 /**
