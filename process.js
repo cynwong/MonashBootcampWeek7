@@ -1,10 +1,5 @@
 const {
     colors,
-    AXIOS,
-    FS,
-    EJS,
-    EXEC,
-    PUPPETEER,
     PATH_SEPARATOR,
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
@@ -14,6 +9,13 @@ const {
     getGitHubURL,
     getGitHubStarsURL,
 } = require( './config.js');
+
+
+const axios = require("axios");
+const fs = require("fs-extra");
+const ejs = require("ejs");
+const puppeteer = require("puppeteer");
+const exec = require("child_process").exec;
 
 const {
     alerts:{
@@ -45,19 +47,20 @@ const writeToFile = async function (customFilePath,name, data) {
     const [filePath,isUsingDefaultPath] = _getFilePath(customFilePath,name);
     try{
         
-        const browser = await PUPPETEER.launch();
+        const browser = await puppeteer.launch();
         const page = await browser.newPage();
         
         await page.setContent(data);
         await page.emulateMediaType("print");
         console.log(`${infoSaving} ${filePath}.....`);
+        //save data to pdf file
         await page.pdf({
             path: filePath,
             format:"A4",
             printBackground: true,
         });
         console.log(infoFileCreated);
-        EXEC(`${OPEN_FILE_COMMAND} ${filePath}`);
+        exec(`${OPEN_FILE_COMMAND} ${filePath}`);
         await browser.close();
     }catch(err){
         console.log(prefixSavePDF, err.message);
@@ -75,13 +78,20 @@ const writeToFile = async function (customFilePath,name, data) {
  * @param {string} theme 
  * @param {string} githubUsername 
  * @param {string} customFilePath 
+ * @return {string} template
+ * @return {object} data for html rendition
  */
 const retrieveData = async function(theme,githubUsername){
     try{
+        //write out the message to update the process status to the user
         console.log(infoDataRetrieving);
-        const getGithubData = AXIOS.get(getGitHubURL(githubUsername));
-        const getGitHubStars = AXIOS.get(getGitHubStarsURL(githubUsername));
-        const getTemplate = FS.readFile(TEMPLATE_FILE, "utf-8");
+
+        // ajax call to get github profile data from the server
+        const getGithubData = axios.get(getGitHubURL(githubUsername));
+        //another ajax call to get github starred repo
+        const getGitHubStars = axios.get(getGitHubStarsURL(githubUsername));
+        //read the template file. 
+        const getTemplate = fs.readFile(TEMPLATE_FILE, "utf-8");
         const [
             {
                 data: {
@@ -102,14 +112,17 @@ const retrieveData = async function(theme,githubUsername){
             },
             template
         ] = await Promise.all([getGithubData, getGitHubStars, getTemplate]);
+        //Check if we get data back from github
         if(!name){
             console.log(alertNoGithubData);
             return [];
         }
+        //construct the location url for the pdf
         let locationUrl = "";
         if (location) { 
             locationUrl = getGoogleUrl(location);
         }
+        //get the color scheme
         const {
             wrapperBackground,
             headerBackground,
@@ -118,6 +131,7 @@ const retrieveData = async function(theme,githubUsername){
         } = colors[theme];
         //calculate stargazers count for github stars
         const stars = starredRepos.reduce((acc,{stargazers_count})=> acc+stargazers_count,0);
+        //return the template and data
         return  [
                 template, 
                 {
@@ -139,7 +153,8 @@ const retrieveData = async function(theme,githubUsername){
                 }
             ];
     } catch (err) {
-        if(err.response.status === 404){
+        if(err.response.status && err.response.status === 404){
+            //error 404: user not found
             console.log(prefixRetrival, alertUserNotFound)
         }else{
             console.log(prefixRetrival, err.message);
@@ -148,12 +163,17 @@ const retrieveData = async function(theme,githubUsername){
     }
 };
 
+/**
+ * Build the destination filepath. 
+ * @param {string} customFilePath - user's defined file path to replace the default path.
+ * @param {string} name - user's full name to build default filename
+ * @return {string} destination file path
+ */
 const _getFilePath = function (customFilePath,name){
     let filePath = "";
     let isUsingDefaultPath = false;
     if(customFilePath && customFilePath.endsWith(".pdf")){
         //this already have  file name and so no changes needed
-    
         filePath = customFilePath;
     }else{
         if(customFilePath && !customFilePath.endsWith(PATH_SEPARATOR)){
@@ -171,10 +191,18 @@ const _getFilePath = function (customFilePath,name){
     return [filePath, isUsingDefaultPath];
 }
 
+/**
+ * Build the html from the template with the data provided. 
+ * @param {*} template 
+ * @param {*} data 
+ * @return {string} rendered html with the data provided
+ */
 const renderData = async function (template, data){
     try{
+        //update user about rendition state of the process
         console.log(infoParsingData);
-        return await EJS.render(
+        //let ejs(template engine) to render the template with the data provided
+        return await ejs.render(
             template,
             data,
             {

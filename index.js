@@ -1,8 +1,9 @@
 
 const {
     questions,
-    INQUIRER,
 } = require( './config.js');
+
+const inquirer = require("inquirer");
 
 const {
     retrieveData,
@@ -25,7 +26,7 @@ const {
  */
 async function init() {
     try {
-        const answers = await INQUIRER.prompt(questions);
+        const answers = await inquirer.prompt(questions);
         const theme = answers.theme;
         const githubUsername = answers.githubUsername.trim();
         const customFilePath = answers.customFilePath.trim();
