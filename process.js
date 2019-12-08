@@ -44,7 +44,7 @@ const {
  * @param {boolean} isUsingDefaultPath True if program is using default path, False if using user's defined path
  */
 const writeToFile = async function (customFilePath,name, data) {
-    const [filePath,isUsingDefaultPath] = _getFilePath(customFilePath,name);
+    const {filePath,isUsingDefaultPath} = _getFilePath(customFilePath,name);
     try{
         
         const browser = await puppeteer.launch();
@@ -188,7 +188,7 @@ const _getFilePath = function (customFilePath,name){
         //add file default file name
         filePath += `${name.toLowerCase().replace(" ", "_")}_${DEFAULT_FILE_SUFFIX}`;
     }
-    return [filePath, isUsingDefaultPath];
+    return {filePath, isUsingDefaultPath};
 }
 
 /**
