@@ -4,6 +4,7 @@
   "description": "\"A command-line appliction where user can dyanmically generate a PDF profile from a GitHub username\"",
   "main": "index.js",
   "scripts": {
+    "start": "echo \"Hello.\nWelcome to Profile Generator.\"; node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

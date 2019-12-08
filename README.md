@@ -18,7 +18,7 @@ Profile generator is a command line application so terminal or command prompt pr
 3. To run the application, type in the terminal window.
 
     ```sh
-        node index.js
+        npm start
     ```
 
 4. Follow the prompts.
