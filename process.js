@@ -1,5 +1,4 @@
 const {
-    colors,
     PATH_SEPARATOR,
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
@@ -122,13 +121,6 @@ const retrieveData = async function(theme,githubUsername){
         if (location) { 
             locationUrl = getGoogleUrl(location);
         }
-        //get the color scheme
-        const {
-            wrapperBackground,
-            headerBackground,
-            headerColor,
-            photoBorderColor
-        } = colors[theme];
         //calculate stargazers count for github stars
         const stars = starredRepos.reduce((acc,{stargazers_count})=> acc+stargazers_count,0);
         //return the template and data
@@ -136,10 +128,7 @@ const retrieveData = async function(theme,githubUsername){
                 template, 
                 {
                     name,
-                    wrapperBackground,
-                    headerBackground,
-                    headerColor,
-                    photoBorderColor,
+                    color:theme,
                     avatarUrl,
                     company,
                     locationUrl,

@@ -7,238 +7,298 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <link href="https://fonts.googleapis.com/css?family=BioRhyme|Cabin&display=swap" rel="stylesheet">
-    <title><%= name %></title>
     <style>
-        @page {
-            margin: 0;
-        }
+    @page {
+    margin: 0;
+}
 
-        @font-face {
-            font-family: 'Font Awesome\ 5 Brands';
-            font-style: normal;
-            font-weight: 400;
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot");
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.svg#fontawesome") format("svg");
-        }
+@font-face {
+    font-family: 'Font Awesome\ 5 Brands';
+    font-style: normal;
+    font-weight: 400;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot");
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-brands-400.svg#fontawesome") format("svg");
+}
 
-        @font-face {
-            font-family: 'Font Awesome\ 5 Free';
-            font-style: normal;
-            font-weight: 900;
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot");
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.svg#fontawesome") format("svg");
-        }
-        
+@font-face {
+    font-family: 'Font Awesome\ 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot");
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.woff") format("woff"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.ttf") format("truetype"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
 
-        *,
-        *::after,
-        *::before {
-            box-sizing: border-box;
-        }
 
-        html,
-        body {
-            padding: 0;
-            margin: 0;
-        }
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
 
-        html,
-        body,
-        .wrapper {
-            height: 100%;
-        }
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
 
-        .wrapper {
-            background-color: <%=wrapperBackground %>;
-            /* background-color: ${colors[data.color].wrapperBackground}; */
-            padding-top: 100px;
-        }
+html,
+body,
+.wrapper {
+    height: 100%;
+}
 
-        body {
-            background-color: white;
-            -webkit-print-color-adjust: exact !important;
-            font-family: 'Cabin', sans-serif;
-        }
+.wrapper {
+    padding-top: 100px;
+}
 
-        main {
-            background-color: #E9EDEE;
-            height: auto;
-            padding-top: 30px;
-        }
+.wrapper.green{
+    background-color: #E6E1C3;
+}
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'BioRhyme', serif;
-            margin: 0;
-            margin-top: 8px;
-        }
+.wrapper.blue{
+    background-color: #5F64D3;
+}
 
-        h1 {
-            font-size: 3em;
-        }
+.wrapper.pink{
+    background-color: #879CDF;
+}
 
-        h2 {
-            font-size: 2.5em;
-        }
+.wrapper.red{
+    background-color: #DE9967;
+}
 
-        h3 {
-            font-size: 2em;
-        }
+body {
+    background-color: white;
+    -webkit-print-color-adjust: exact !important;
+    font-family: 'Cabin', sans-serif;
+}
 
-        h4 {
-            font-size: 1.5em;
-        }
+main {
+    background-color: #E9EDEE;
+    height: auto;
+    padding-top: 30px;
+}
 
-        h5 {
-            font-size: 1.3em;
-        }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'BioRhyme', serif;
+    margin: 0;
+    margin-top: 8px;
+}
 
-        h6 {
-            font-size: 1.2em;
-        }
+h1 {
+    font-size: 3em;
+}
 
-        .photo-header {
-            position: relative;
-            margin: 0 auto;
-            margin-bottom: -50px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            background-color: <%=headerBackground %>;
-            /* background-color: ${colors[data.color].headerBackground}; */
+h2 {
+    font-size: 2.5em;
+}
 
-            color: <%=headerColor %>;
-            /* color: ${colors[data.color].headerColor}; */
-            padding: 10px;
-            width: 95%;
-            border-radius: 6px;
-        }
+h3 {
+    font-size: 2em;
+}
 
-        .photo-header img {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: -75px;
+h4 {
+    font-size: 1.5em;
+}
 
-            border: 6px solid <%=photoBorderColor %>;
-            /* border: 6px solid ${colors[data.color].photoBorderColor}; */
-            /* box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px; */
-        }
+h5 {
+    font-size: 1.3em;
+}
 
-        .photo-header h1,
-        .photo-header h4 {
-            width: 100%;
-            text-align: center;
-        }
+h6 {
+    font-size: 1.2em;
+}
 
-        .photo-header h1 {
-            margin-top: 10px;
-        }
+.photo-header {
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: -50px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    width: 95%;
+    border-radius: 6px;
+}
 
-        .photo-header h4 {
-            margin-top: 8px;
-        }
+.photo-header.green{
+    background-color: #C1C72C;
+    color:black;
+}
 
-        .links-nav {
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 1.1em;
-        }
+.photo-header.blue{
+    background-color: #26175A;
+    color:white;
+}
 
-        .icon::before {
-            display: inline-block;
-            font-style: normal;
-            font-variant: normal;
-            text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-        }
+.photo-header.pink{
+    background-color: #FF8374;
+    color:white;
+}
 
-        .location::before {
-            font-family: "Font Awesome\ 5 Free";
-            font-weight: 900;
-            content: "\f3c5";
-        }
+.photo-header.red{
+    background-color: #870603;
+    color:white;
+}
 
-        .github::before {
-            font-family: "Font Awesome\ 5 Brands";
-            font-weight: 400;
-            content: "\f113";
-        }
+.photo-header img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: -75px;
+    background-color:white;
+    /* box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px; */
+}
 
-        .blog::before {
-            font-family: "Font Awesome\ 5 Free";
-            font-weight: 900;
-            content: "\f09e";
-        }
+.photo-header img.green{
+    border: 6px solid black;
+}
 
-        .nav-link {
-            display: inline-block;
-            margin: 5px 10px;
-        }
+.photo-header img.blue{
+    border: 6px solid #73448C;
+}
 
-        .workExp-date {
-            font-style: italic;
-            font-size: .7em;
-            text-align: right;
-            margin-top: 10px;
-        }
+.photo-header img.pink{
+    border: 6px solid #FEE24C;
+}
 
-        .container {
-            padding: 50px;
-            padding-left: 100px;
-            padding-right: 100px;
-        }
+.photo-header img.red{
+    border: 6px solid white;
+}   
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+.photo-header h1,
+.photo-header h4 {
+    width: 100%;
+    text-align: center;
+}
 
-        .card {
-            padding: 20px;
-            border-radius: 6px;
-            background-color: <%=headerBackground %>;
-            /* background-color: ${colors[data.color].headerBackground}; */
-            color: <%=headerColor %>;
-            /* color: ${colors[data.color].headerColor}; */
-            margin: 20px;
-            min-height: 150px;
-        }
+.photo-header h1 {
+    margin-top: 10px;
+}
 
-        .col {
-            flex: 1;
-            text-align: center;
-        }
+.photo-header h4 {
+    margin-top: 8px;
+}
 
-        a,
-        a:hover {
-            text-decoration: none;
-            color: inherit;
-            font-weight: bold;
-        }
+.links-nav {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 1.1em;
+}
 
-        @media print {
-            body {
-                zoom: .75;
-            }
-        }
+.icon::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.location::before {
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+    content: "\f3c5";
+}
+
+.github::before {
+    font-family: "Font Awesome\ 5 Brands";
+    font-weight: 400;
+    content: "\f113";
+}
+
+.blog::before {
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+    content: "\f09e";
+}
+
+.nav-link {
+    display: inline-block;
+    margin: 5px 10px;
+}
+
+.workExp-date {
+    font-style: italic;
+    font-size: .7em;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.container {
+    padding: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 6px;
+    margin: 20px;
+    min-height: 150px;
+}
+.card.green{
+    background-color: #C1C72C;
+    color:black;
+}
+
+.card.blue{
+    background-color: #26175A;
+    color:white;
+}
+
+.card.pink{
+    background-color: #FF8374;
+    color:white;
+}
+
+.card.red{
+    background-color: #870603;
+    color:white;
+}
+
+.col {
+    flex: 1;
+    text-align: center;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+@media print {
+    body {
+        zoom: .75;
+    }
+}
     </style>
+
+    <title><%= name %></title>
+
 </head>
 
 <body>
-    <div class="wrapper">
-        <header class="photo-header">
+    <div class="wrapper <%= color %>">
+        <header class="photo-header <%= color %>">
             <% if(avatarUrl) { %>
-            <img src="<%= avatarUrl %>" alt="Profile Picture">
+            <img class="<%= color %>" src="<%= avatarUrl %>" alt="Profile Picture">
             <% } %>
             <h1>Hi!</h1>
             <h1>My name is <%= name %>!</h1>
@@ -271,13 +331,13 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card <%= color %>">
                         <h3>Public Repositories</h3>
                         <h2><%= repos %></h2>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card <%= color %>">
                         <h3>Followers</h3>
                         <h2><%= followers %></h2>
                     </div>
@@ -285,13 +345,13 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card <%= color %>">
                         <h3>GitHub Stars</h3>
                         <h2><%= stars %></h2>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card <%= color %>">
                         <h3>Followings</h3>
                         <h2><%= following %></h2>
                     </div>
