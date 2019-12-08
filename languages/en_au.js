@@ -1,4 +1,4 @@
-const MESSAGES = {
+const messages = {
     alerts: {
         mustBePdf:"\nAlert: Destination file must be a pdf file.",
         noGithubData :"\nAlert: Something went wrong with retrieving profile from GitHub. Check github username and try again later.",
@@ -26,5 +26,5 @@ const MESSAGES = {
 };
 
 module.exports = {
-    ...MESSAGES
+    ...messages
 };
