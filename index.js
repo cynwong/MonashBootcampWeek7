@@ -1,15 +1,13 @@
 
 const {
     questions,
-} = require( './config.js');
-
-const inquirer = require("inquirer");
+} = require( './config');
 
 const {
     retrieveData,
     renderData,
     writeToFile
-} = require("./process.js");
+} = require("./process");
 
 const {
     alerts: {
@@ -20,6 +18,9 @@ const {
         init: errInit
     }
 }= require("./languages/en_au");
+
+const inquirer = require("inquirer");
+
 
 /**
  * Init function where the program will ask user for the information and get 

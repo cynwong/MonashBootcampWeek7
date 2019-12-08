@@ -3,12 +3,14 @@ const {
     OPEN_FILE_COMMAND,
     DEFAULT_FILE_PATH, 
     DEFAULT_FILE_SUFFIX,
-    TEMPLATE_FILE,
+    TEMPLATE_FILE
+} = require( './config');
+
+const {
     getGoogleUrl,
     getGitHubURL,
-    getGitHubStarsURL,
-} = require( './config.js');
-
+    getGitHubStarsURL
+} = require("./getURL")
 
 const axios = require("axios");
 const fs = require("fs-extra");

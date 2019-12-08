@@ -25,7 +25,6 @@ const questions = [
     }
 ];
 
-const _githubUrl = "https://api.github.com/users/";
 
 let PATH_SEPARATOR = "/";
 let OPEN_FILE_COMMAND = "open";
@@ -40,34 +39,6 @@ const DEFAULT_FILE_SUFFIX = "profile.pdf";
 
 const TEMPLATE_FILE = "./template.html";
 
-/**
- * Return google url with the location
- * @param {string} location 
- * @return string URI
- * e.g. https://www.google.com/maps/search/?api=1&query=sydney%2caustralia
- */
-const getGoogleUrl = function(location){
-    return encodeURI(`https://www.google.com/maps/search/?api=1&query=${location.replace(" ","")}`);
-};
-
-/**
- * return user's github api url
- * @param {string} location 
- * @return string URI
- */
-const getGitHubURL = function(user){
-    return encodeURI(`${_githubUrl}${user}`);
-};
-
-/**
- * return user's github api url
- * @param {string} location 
- * @return string URI
- */
-const getGitHubStarsURL = function(user){
-    return encodeURI(`${getGitHubURL(user)}/starred`);
-};
-
 module.exports = {
     questions,
     PATH_SEPARATOR,
@@ -75,7 +46,4 @@ module.exports = {
     DEFAULT_FILE_PATH, 
     DEFAULT_FILE_SUFFIX,
     TEMPLATE_FILE,
-    getGoogleUrl,
-    getGitHubURL,
-    getGitHubStarsURL
 };
