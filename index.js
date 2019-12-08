@@ -4,7 +4,6 @@ const {
 } = require( './config.js');
 
 const inquirer = require("inquirer");
-const fs = require("fs");
 
 const {
     retrieveData,
@@ -55,8 +54,6 @@ async function init() {
         }
         //write output to the file.
         writeToFile(customFilePath,data.name,output);
-        fs.writeFileSync("./index.html",output)
-
 
     }catch(err){
         console.log(errInit, err.message);
