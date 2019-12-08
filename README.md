@@ -9,14 +9,20 @@ Developer Profile Generator is a command line application which generate profile
 Profile generator is a command line application so terminal or command prompt program is needed to run this program.
 
 1. Open the terminal.
-2. In the terminal window, type the following command
+2. In the terminal window, type the following command to install the package
+
+    ```sh
+        npm i .
+    ```
+
+3. To run the application, type in the terminal window.
 
     ```sh
         node index.js
     ```
 
-3. Follow the prompts.
-4. The application will generate a pdf file with the information provided during the prompts. 
+4. Follow the prompts.
+5. The application will generate a pdf file with the information provided during the prompts. 
 
 ## User Stories
 
