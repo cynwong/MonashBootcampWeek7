@@ -196,9 +196,7 @@ const renderData = async function (template, data){
         return await ejs.render(
             template,
             data,
-            {
-                async: true
-            }
+        
         );
     } catch (err) {
         console.log(prefixConversion, err.message);
