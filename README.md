@@ -2,17 +2,17 @@
 
 ## Description
 
-Developer Profile Generator is a command line application which generate profile from user's GitHub user profile.
+Developer Profile Generator is a command-line application which generate profile from user's GitHub user profile.
 
 ## Instructions
 
-Profile generator is a command line application so terminal or command prompt program is needed to run this program.
+Profile generator is a command-line application so a terminal or command prompt program is needed to run this program.
 
 1. Open the terminal.
 2. In the terminal window, type the following command to install the package
 
     ```sh
-        npm i .
+        npm install .
     ```
 
 3. To run the application, type in the terminal window.
@@ -49,4 +49,4 @@ Developer profile generator generate a PDF resume from provide user's Github pro
 * Number of followers
 * Number of GitHub stars
 * Number of users following
-* User's chosen color theme
+* User's chosen colour theme
